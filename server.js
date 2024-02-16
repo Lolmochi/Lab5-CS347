@@ -1,11 +1,9 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const app = express()
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-
-const app = express()
-
 
 app.get('/', (req, res) => {
   res.send('Hello World')
@@ -23,6 +21,17 @@ app.get('/books/:id', (req, res) => {
 app.post('/books', (req, res) => {
     books.push(req.body)
   })
+
+  app.put('/books/:id', (req, res) => {
+    const updateIndex = books.findIndex(book => book.id === req.params.id)
+    res.json(Object.assign(books[updateIndex], req.body))
+  })
+
+  app.delete('/books/:id', (req, res) => {
+    const deletedIndex = books.findIndex(book => book.id === req.params.id)
+    delete books[deleteIndex];
+    res.status(200).json(req.body)
+ })
   
 
 app.listen(3000, () => {
